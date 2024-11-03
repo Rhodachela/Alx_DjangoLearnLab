@@ -1,12 +1,14 @@
-# Delete Operation
+# Delete Operation for Book Model
 
 ### Command:
 ```python
-retrieved_book.delete()
-Expected Output:
-
-(1, {'bookshelf.Book': 1})
-Confirm deletion:
-
+from bookshelf.models import Book
+book_to_delete = Book.objects.get(title="1984")
+book_to_delete.delete()
+Verification Command:
+python
+Copy code
 Book.objects.all()
-# Output: <QuerySet []>
+
+Expected Output:
+<QuerySet []>
