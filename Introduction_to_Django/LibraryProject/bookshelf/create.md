@@ -1,9 +1,6 @@
-# Update Operation
+# Create Operation for Book Model
 
 ### Command:
 ```python
-retrieved_book.title = "Nineteen Eighty-Four"
-retrieved_book.save()
-
-Expected Output:
-<Book: Nineteen Eighty-Four by George Orwell (1949)>
+from bookshelf.models import Book
+Book.objects.create(title="1984", author="George Orwell", publication_year=1949)
