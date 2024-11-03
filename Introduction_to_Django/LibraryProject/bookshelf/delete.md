@@ -3,11 +3,9 @@
 ### Command:
 ```python
 from bookshelf.models import Book
-book_to_delete = Book.objects.get(title="1984")
-book_to_delete.delete()
+book = Book.objects.get(title="1984")
+book.delete()
 Verification Command:
-python
-Copy code
 Book.objects.all()
 
 Expected Output:
