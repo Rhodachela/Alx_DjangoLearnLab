@@ -14,6 +14,7 @@ The primary goal of this project is to gain familiarity with Django, including:
 
 ### Prerequisites
 - Python 3.x installed on your system.
+- Ensure you're working in the right directory
 - Basic understanding of Python and web development.
   
 ### Steps to Run the Project Locally
