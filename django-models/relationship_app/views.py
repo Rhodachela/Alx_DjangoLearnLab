@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from .models import Library
 from .models import Book
-from django.views.generic.detail import DeleteView
+from django.views.generic.detail import DetailView
 
 
 # Function-based view to list all books
