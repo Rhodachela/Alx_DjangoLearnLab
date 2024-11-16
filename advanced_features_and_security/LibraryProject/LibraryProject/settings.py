@@ -48,6 +48,9 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Enable browser XSS protection
 SECURE_BROWSER_XSS_FILTER = True
 
+# Indicate the HTTP header to identify secure requests from the proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # HTTP Strict Transport Security (HSTS)
 SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
 SECURE_HSTS_SECONDS = 31536000  # One year
