@@ -5,11 +5,22 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length= 200)
-    author = models.CharField(max_length= 100)
+    author = models.CharField(max_length= 200)
     publication_year = models.IntegerField()
+    published_date = models.DateField()
+
+    # Custom permissions for the Book model
+    class Meta:
+        permissions = [
+            ("can_view", "Can view book details"),
+            ("can_create", "Can create books"),
+            ("can_edit", "Can edit books"),
+            ("can_delete", "Can delete books"),
+        ]
+
     
     def __str__(self):
-        return f"{self.title} by {self.author} ({self.publication_year})"
+        return f"{self.title}"
 
 class CustomUserManager(BaseUserManager):
     """Custom manager for handling user creation with additional fields."""
