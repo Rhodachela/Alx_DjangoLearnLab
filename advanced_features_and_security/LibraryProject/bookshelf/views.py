@@ -4,6 +4,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book
 from django.db.models import Q
 from .forms import BookSearchForm
+from .forms import ExampleForm
+
 
 # Create your views here.
 # Permission checks are applied using @permission_required to restrict access.
@@ -66,3 +68,17 @@ def search_books(request):
         query = form.cleaned_data['q']
         books = Book.objects.filter(title__icontains=query)
     return render(request, 'bookshelf/book_list.html', {'books': books, 'form': form})
+
+def example_form_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Handle the valid form data here
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            # Example: Save or send the data
+    else:
+        form = ExampleForm()
+
+    return render(request, 'bookshelf/form_example.html', {'form': form})
