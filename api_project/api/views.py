@@ -4,6 +4,8 @@ from .models import Book
 from .serializers import BookSerializer
 from rest_framework.viewsets import ModelViewSet
 from .serializers import BookSerializer
+from .permissions import IsAdminOrReadOnly
+
 
 
 class BookList(generics.ListAPIView):
@@ -13,3 +15,6 @@ class BookList(generics.ListAPIView):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()  # Retrieve all books
     serializer_class = BookSerializer  # Use BookSerializer for serialization
+    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
+
