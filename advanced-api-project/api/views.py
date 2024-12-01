@@ -32,9 +32,9 @@ class BookListView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     filterset_class = BookFilter  # For filtering
     filter_backends = [DjangoFilterBackend, OrderingFilter]  # Add OrderingFilter here
-    search_fields = ['title', 'author__name']
-    ordering_fields = ['title', 'publication_year']  # Allow sorting by title or year
-    ordering = ['title']  # Default ordering by title
+    filterset_class = BookFilter
+    ordering_fields = ['title', 'publication_year']  # Specify ordering fields
+    ordering = ['title']  # Default ordering
 
 
 class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
