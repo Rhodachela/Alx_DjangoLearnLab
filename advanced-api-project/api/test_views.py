@@ -18,6 +18,10 @@ class BookAPITestCase(APITestCase):
         
         # Use APIClient to simulate requests
         self.client = APIClient()
+        
+    def test_create_book_authenticated(self):
+        # Log in the user for authenticated requests
+        self.client.login(username='testuser', password='testpassword')
 
     def test_list_books(self):
         response = self.client.get('/api/books/')
