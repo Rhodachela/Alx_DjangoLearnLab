@@ -5,13 +5,18 @@ from .models import Book, Author
 
 class BookAPITestCase(APITestCase):
     def setUp(self):
-        # Set up initial test data
+        # Create a user
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        
+        # Create an author and a book for testing
         self.author = Author.objects.create(name="J.K. Rowling")
         self.book = Book.objects.create(
             title="Harry Potter and the Philosopher's Stone",
             publication_year=1997,
             author=self.author
         )
+        
+        # Use APIClient to simulate requests
         self.client = APIClient()
 
     def test_list_books(self):
