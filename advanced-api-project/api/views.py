@@ -4,6 +4,7 @@ from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.filters import SearchFilter
+from django_filters import rest_framework
 
 
 # CreateView
@@ -34,7 +35,7 @@ class BookListView(generics.ListCreateAPIView):
     ordering_fields = ['title', 'publication_year']  # Allow sorting by title or year
     ordering = ['title']  # Default ordering by title
 
-    
+
 class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
