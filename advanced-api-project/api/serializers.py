@@ -4,6 +4,8 @@ from datetime import datetime
 
 #Serializes the Book model, ensuring the publication year is valid.
 class BookSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField()  # Use this if you only need the author's name
+
     class Meta:
         model = Book
         fields = ['id', 'title', 'publication_year', 'author']

@@ -35,6 +35,8 @@ class BookListView(generics.ListCreateAPIView):
     filterset_class = BookFilter
     ordering_fields = ['title', 'publication_year']  # Specify ordering fields
     ordering = ['title']  # Default ordering
+    search_fields = ['title', 'author__name']  # Include author__name for searching by author's name
+
 
 
 class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
