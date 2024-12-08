@@ -24,7 +24,5 @@ urlpatterns = [
     path('search/', SearchResultsView.as_view(), name='search-results'),
     path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='post-by-tag'),  # URL for displaying posts by tag
 
-
-
 ]
 
