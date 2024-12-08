@@ -5,7 +5,7 @@ from taggit.managers import TaggableManager
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=200, unique=True)
     
     def __str__(self):
         return self.name
