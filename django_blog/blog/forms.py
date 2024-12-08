@@ -14,7 +14,7 @@ class PostForm(forms.ModelForm):
     tags = TaggableManager(
         help_text="Separate tags with spaces.",
         # Use TagWidget to make tag entry more user-friendly
-        widget=TagWidget(attrs={'class': 'form-control'}),
+        widget=TagWidget(),
     )
 
     class Meta:
