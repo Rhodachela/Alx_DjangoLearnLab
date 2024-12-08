@@ -6,7 +6,39 @@
 <h1>{{ post.title }}</h1>
 <p>{{ post.content }}</p>
 <p>By {{ post.author.username }} on {{ post.published_date }}</p>
-<a href="{% url 'post-update' post.pk %}">Edit</a>
-<a href="{% url 'post-delete' post.pk %}">Delete</a>
-<a href="{% url 'post-list' %}">Back to posts</a>
+
+{% if user.is_authenticated and user == post.author %}
+    <a href="{% url 'post-update' post.pk %}" class="btn btn-warning">Edit Post</a>
+    <a href="{% url 'post-delete' post.pk %}" class="btn btn-danger">Delete Post</a>
+{% endif %}
+<a href="{% url 'post-list' %}" class="btn btn-secondary">Back to posts</a>
+
+<hr>
+<h2>Comments</h2>
+
+<div>
+    {% for comment in post.comments.all %}
+        <div class="comment mb-3">
+            <p><strong>{{ comment.author }}</strong> ({{ comment.created_at|date:"M d, Y H:i" }})</p>
+            <p>{{ comment.content }}</p>
+            {% if comment.author == user %}
+                <a href="{% url 'edit-comment' comment.id %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'delete-comment' comment.id %}" class="btn btn-sm btn-danger">Delete</a>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No comments yet. Be the first to comment!</p>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated %}
+    <h3>Leave a Comment</h3>
+    <form method="post" action="{% url 'add-comment' post.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
+{% endif %}
 {% endblock %}
