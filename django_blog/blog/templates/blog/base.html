@@ -8,6 +8,10 @@
 </head>
 <body>
     <header>
+        <form method="get" action="{% url 'search-results' %}">
+            <input type="text" name="q" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>        
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
