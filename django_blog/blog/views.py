@@ -25,7 +25,7 @@ class SearchResultsView(ListView):
         return Post.objects.filter(
             Q(title__icontains=query) | Q(content__icontains=query) | Q(tags__name__icontains=query)
         ).distinct()
-        
+
 class TaggedPostListView(ListView):
     model = Post
     template_name = 'blog/tagged_posts.html'
@@ -176,3 +176,11 @@ class PostDeleteView(LoginRequiredMixin, DeleteView, UserPassesTestMixin):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+        
+class PostByTagListView(ListView):
+    template_name = 'blog/post_by_tag.html'  # Template to render the posts by tag
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get('tag_slug')
+        return Post.objects.filter(tags__slug=tag_slug)

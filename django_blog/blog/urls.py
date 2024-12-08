@@ -5,7 +5,7 @@ from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView,
 from .views import (
     add_comment, edit_comment, delete_comment
 )
-from .views import SearchResultsView
+from .views import SearchResultsView, PostByTagListView
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='blog/login.html'), name='login'),
@@ -20,8 +20,10 @@ urlpatterns = [
     path('post/<int:pk>/comments/new/', add_comment, name='add-comment'),
     path('comment/<int:pk>/update/', edit_comment, name='edit-comment'),
     path('comment/<int:pk>/delete/', delete_comment, name='delete-comment'),
-    path('tags/<str:tag_name>/', TaggedPostListView.as_view(), name='tagged-posts'),
+    path('tags/<slug:tag_slug>/', TaggedPostListView.as_view(), name='tagged-posts'),
     path('search/', SearchResultsView.as_view(), name='search-results'),
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='post-by-tag'),  # URL for displaying posts by tag
+
 
 
 ]
