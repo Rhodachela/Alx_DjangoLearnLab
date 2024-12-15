@@ -6,6 +6,8 @@ from .serializers import PostSerializer, CommentSerializer
 from rest_framework.pagination import PageNumberPagination
 from .models import Post
 from django.db.models import Q
+from .models import Post, Like
+from notifications.models import Notification
 
 class PostPagination(PageNumberPagination):
     page_size = 10
@@ -57,3 +59,30 @@ class FeedView(generics.GenericAPIView):
         Post.objects.filter(author__in=following_users).order_by        
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
+
+class LikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        post = get_object_or_404(Post, id=pk)
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        if not created:
+            return Response({'detail': 'Already liked'}, status=status.HTTP_400_BAD_REQUEST)
+        Notification.objects.create(
+            recipient=post.author,
+            actor=request.user,
+            verb='liked',
+            target=post
+        )
+        return Response({'status': 'liked'}, status=status.HTTP_201_CREATED)
+
+class UnlikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        post = get_object_or_404(Post, id=pk)
+        like = Like.objects.filter(user=request.user, post=post).first()
+        if not like:
+            return Response({'detail': 'Not liked yet'}, status=status.HTTP_400_BAD_REQUEST)
+        like.delete()
+        return Response({'status': 'unliked'}, status=status.HTTP_200_OK)
