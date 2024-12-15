@@ -10,6 +10,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 
+CustomUser = get_user_model()
+
 class RegisterView(views.APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -36,7 +38,7 @@ class FollowUserView(generics.GenericAPIView):
         return Response({'status': 'now following'})
 
 class UnfollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes.IsAuthenticated
 
     def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(get_user_model(), id=user_id)
