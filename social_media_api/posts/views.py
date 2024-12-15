@@ -45,7 +45,7 @@ class PostViewSet(viewsets.ModelViewSet):
     ...
     filterset_class = PostFilter
 
-class FeedView(APIView):
+class FeedView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
