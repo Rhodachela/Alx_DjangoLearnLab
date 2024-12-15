@@ -4,6 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.pagination import PageNumberPagination
+from .models import Post
+from django.db.models import Q
 
 class PostPagination(PageNumberPagination):
     page_size = 10
@@ -30,7 +32,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-        
+
 class PostFilter(filters.FilterSet):
     title = filters.CharFilter(lookup_expr='icontains')
     content = filters.CharFilter(lookup_expr='icontains')
@@ -42,3 +44,12 @@ class PostFilter(filters.FilterSet):
 class PostViewSet(viewsets.ModelViewSet):
     ...
     filterset_class = PostFilter
+
+class FeedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_following = request.user.following.values_list('id', flat=True)
+        posts = Post.objects.filter(author__in=user_following).order_by('-created_at')
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
