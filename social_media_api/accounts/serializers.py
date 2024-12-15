@@ -33,7 +33,7 @@ class AuthTokenSerializer(serializers.Serializer):
             raise serializers.ValidationError("Invalid credentials")
         
         # Get or create token for user
-        token, created = Token.objects.get_or_create(user=user)
+        token, created = Token.objects.create(user=user)
         return {
             'token': token.key,
         }
