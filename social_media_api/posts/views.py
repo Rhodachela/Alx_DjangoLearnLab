@@ -49,6 +49,9 @@ class FeedView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        if not permissions.IsAuthenticated.has_permission(permissions.IsAuthenticated(), request, self):
+            return Response({'detail': 'Authentication credentials were not provided.'}, status=401)
+
         following_users = request.user.following.all() 
         user_following = request.user.following.values_list('id', flat=True)
         Post.objects.filter(author__in=following_users).order_by        
