@@ -30,15 +30,16 @@ class LoginView(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class FollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
-
     def post(self, request, user_id):
-        user_to_follow = get_object_or_404(get_user_model(), id=user_id)
+        if not permissions.IsAuthenticated.has_permission(permissions.IsAuthenticated(), request, self):
+            return Response({'detail': 'Authentication credentials were not provided.'}, status=401)
+        user_to_follow = get_object_or_404(CustomUser.objects.all(), id=user_id)
         request.user.following.add(user_to_follow)
         return Response({'status': 'now following'})
 
 class UnfollowUserView(APIView):
     permission_classes.IsAuthenticated
+    CustomUser.objects.all()
 
     def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(get_user_model(), id=user_id)
